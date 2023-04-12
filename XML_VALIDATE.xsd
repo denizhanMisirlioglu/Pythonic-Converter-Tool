@@ -1,0 +1,93 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:complexType name ="last_min_score_Type">
+  <xsd:simpleContent>
+     <xsd:extension base ="xsd:string">
+        <xsd:attribute name ="order" type ="xsd:double"/>
+     </xsd:extension>
+   </xsd:simpleContent>
+</xsd:complexType>
+
+ <xsd:simpleType name ="fieldType">
+    <xsd:restriction base ="xsd:string">
+        <xsd:enumeration value ="SAY"/>
+        <xsd:enumeration value ="EA"/>
+        <xsd:enumeration value ="SÖZ"/>
+        <xsd:enumeration value ="DİL"/>
+    </xsd:restriction>
+ </xsd:simpleType>
+
+<xsd:complexType name ="quotaType">
+  <xsd:simpleContent>
+     <xsd:extension base ="xsd:int">
+        <xsd:attribute name ="spec" type ="xsd:double"/>
+     </xsd:extension>
+   </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:simpleType name ="secondType">
+<xsd:restriction base ="xsd:string">
+   <xsd:enumeration value ="İkinci Öğretim"/>
+   <xsd:enumeration value =""/>
+</xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name ="langType">
+ <xsd:restriction base = "xsd:string">
+    <xsd:enumeration value ="İngilizce"/>
+    <xsd:enumeration value =""/>
+ </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:complexType name = "nameType">
+    <xsd:simpleContent>
+     <xsd:extension base ="xsd:string">
+       <xsd:attribute name ="lang" type = "langType"/>
+       <xsd:attribute name ="second" type = "secondType"/> 
+       </xsd:extension>
+    </xsd:simpleContent>              
+</xsd:complexType>
+
+<xsd:simpleType name ="idType">
+   <xsd:restriction base ="xsd:int">
+       <xsd:pattern value="\d{9}"/>      
+   </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:complexType name="itemType">
+   <xsd:sequence minOccurs ="1" maxOccurs ="unbounded">
+      <xsd:element name = "name" type ="nameType"/> 
+      <xsd:element name = "period" type ="xsd:int"/>
+      <xsd:element name = "quota"  type ="quotaType"/> 
+      <xsd:element name = "field"  type ="fieldType"/>
+      <xsd:element name = "last_min_score" type ="last_min_score_Type"/>
+      <xsd:element name = "grant" type ="xsd:double"/>
+   </xsd:sequence>
+   <xsd:attribute name ="faculty" type ="xsd:string"/>
+   <xsd:attribute name ="id" type ="idType"/>
+</xsd:complexType>
+
+<xsd:simpleType name ="uTypeType">
+<xsd:restriction base="xsd:string">
+   <xsd:enumeration value ="Devlet"/>
+   <xsd:enumeration value ="Vakıf"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:complexType name ="universityType">
+    <xsd:sequence minOccurs ="1" maxOccurs ="unbounded">
+         <xsd:element name ="item" type ="itemType"/>
+    </xsd:sequence>
+     <xsd:attribute name="name" type="xsd:string"/>
+     <xsd:attribute name="uType" type ="uTypeType"/>
+
+</xsd:complexType>
+
+
+<xsd:element name="departments" type="departmentsType"/>
+
+<xsd:complexType name="departmentsType">
+  <xsd:sequence minOccurs ="0" maxOccurs="unbounded">
+      <xsd:element name ="university" type = "universityType"/> 
+  </xsd:sequence>
+</xsd:complexType>
